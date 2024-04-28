@@ -1,0 +1,62 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Get module version
+      id: get_module_version
+      shell: python
+      run: |
+        from datetime import datetime
+        from os import getenv
+        
+        DATE_Y = int(datetime.now().strftime("%y"))
+        DATE_M = int(datetime.now().strftime("%m"))
+        DATE_D = int(datetime.now().strftime("%d"))
+        TIME = str(int(datetime.now().strftime("%H%M%S"))).rjust(6, "0")
+        
+        version = f"v{DATE_Y}.{DATE_M}.{DATE_D}.{TIME}"
+        print(version)
+
+        with open(getenv("GITHUB_OUTPUT"), "a") as github_output_file:
+            github_output_file.write(f"version={version}")
+
+    - name: Set up Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+
+    - name: Install dependencies & Build distribution
+      run: |
+        npm install
+        npx webpack
+
+    - name: Create release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_module_version.outputs.version }}
+        name: "Slider"
+        draft: false
+        prerelease: false
+        body: ${{ steps.get_module_version.outputs.version }}
+        files: |
+          ./dist/slider.js

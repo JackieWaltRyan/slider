@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+    <head>
+        <title>Slider</title>
+        <meta charset="UTF-8"/>
+        <meta name="description" content="Slider"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="theme-color" content="#02162e"/>
+        <style>
+            body {
+                background-color: black;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="slider">
+            <script type="text/javascript" src="./slider.js"></script>
+            <script>
+                new Slider({
+                    selector: "#slider",
+                    api: "test.json",
+                    stop: true
+                });
+            </script>
+        </div>
+    </body>
+</html>
