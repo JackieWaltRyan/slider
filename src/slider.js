@@ -153,7 +153,7 @@ export function init(data) {
 
                         title: {
                             root: createElement("div", {
-                                class: "slider_content_item_title"
+                                class: mobile.call(this, "slider_content_item_title")
                             }),
 
                             right: {
