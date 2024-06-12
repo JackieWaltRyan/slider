@@ -2,20 +2,6 @@ import "./style.scss";
 
 import botton from "./images/button.svg";
 
-export function scrollMeta(element) {
-    if (element.scrollWidth > element.parentElement.offsetWidth) {
-        element.style.setProperty("--scroll", (parseInt((element.parentElement.offsetWidth / (element.scrollWidth / 100)).toString()) + "%"));
-
-        element.classList.add("slider_content_item_title_scroll");
-    } else {
-        element.classList.remove("slider_content_item_title_scroll");
-    }
-
-    setTimeout(() => {
-        scrollMeta.call(this, element);
-    }, 1000);
-}
-
 export function createElement(tag, params = {}, actions = () => {
 }) {
     let el = document.createElement(tag);
@@ -47,6 +33,20 @@ export function mobile(value = null) {
             return false;
         }
     }
+}
+
+export function scrollMeta(element) {
+    if (element.scrollWidth > element.parentElement.offsetWidth) {
+        element.style.setProperty("--scroll", (parseInt((element.parentElement.offsetWidth / (element.scrollWidth / 100)).toString()) + "%"));
+
+        element.classList.add("slider_content_item_title_scroll");
+    } else {
+        element.classList.remove("slider_content_item_title_scroll");
+    }
+
+    setTimeout(() => {
+        scrollMeta.call(this, element);
+    }, 1000);
 }
 
 export function gui(data) {
