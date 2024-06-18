@@ -3,14 +3,18 @@ let {init} = require("./slider");
 
 class Slider {
     constructor(data) {
-        gui.call(this, data);
+        try {
+            gui.call(this, data);
 
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", () => {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () => {
+                    init.call(this, data);
+                });
+            } else {
                 init.call(this, data);
-            });
-        } else {
-            init.call(this, data);
+            }
+        } catch (e) {
+            console.error(e);
         }
     }
 }
